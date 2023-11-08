@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from 'axios';
+
 
 const Login = () => {
 
@@ -6,6 +8,16 @@ const Login = () => {
     const handleInputChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
+    const handleLogin = (e) => {
+        e.preventDefault();
+        axios.post('http://127.0.0.1:8000/login', formData)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
 
     return (
         <section className="d-flex align-items-center vh-100">
@@ -14,7 +26,7 @@ const Login = () => {
                     <div className="col-xl-5">
                         <div className="form-wrap">
                             <h2 className="mb-4">Sign in your account</h2>
-                            <form>
+                            <form onSubmit={handleLogin}>
                                 <div className="input-box">
                                     <label>Email</label>
                                     <input
