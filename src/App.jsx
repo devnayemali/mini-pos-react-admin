@@ -7,7 +7,7 @@ import PublicRouter from './components/router/PublicRouter';
 
 function App() {
 
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
 
   return (
     <>
