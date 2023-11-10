@@ -1,6 +1,19 @@
 import { Link } from "react-router-dom";
+import LocalData from "../../Utility/LocalData";
+import { useEffect, useState } from "react";
+
+
+
+
 
 const Sidebar = () => {
+    const [userName, setUserName] = useState('');
+    useEffect(() => {
+        const userData = LocalData('userData');
+        if (userData && userData.name) {
+            setUserName(userData.name);
+        }
+    }, []);
     return (
         <nav className="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div className="sb-sidenav-menu">
@@ -15,7 +28,7 @@ const Sidebar = () => {
             </div>
             <div className="sb-sidenav-footer">
                 <div className="small">Logged in as:</div>
-                devnayemali
+                {userName && userName}
             </div>
         </nav>
     );

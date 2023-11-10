@@ -3,12 +3,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import Constants from "../../Constants";
+import GlobalFunction from "../../Utility/GlobalFunction";
+import LocalData from "../../Utility/LocalData";
 
 
 const Navbar = () => {
 
     const [sidebarToggled, setSidebarToggled] = useState(false);
     const [profileToggled, setProfileToggled] = useState(false);
+    const [userName, setUserName] = useState('');
 
     useEffect(() => {
         if (sidebarToggled) {
@@ -29,6 +33,13 @@ const Navbar = () => {
         }
     }, [profileToggled]);
 
+    useEffect(() => {
+        const userData = LocalData('userData');
+        if (userData && userData.name) {
+            setUserName(userData.name);
+        }
+    }, []);
+
     const handleSidebar = () => {
         setSidebarToggled(!sidebarToggled);
     }
@@ -47,33 +58,22 @@ const Navbar = () => {
             confirmButtonText: "Yes, logout"
         }).then((result) => {
             if (result.isConfirmed) {
-
-                axios.post('http://127.0.0.1:8000/api/logout')
+                axios.post(`${Constants.BASE_URL}/logout`)
                     .then(function () {
-                        localStorage.removeItem('userData');
-                        localStorage.removeItem('authToken');
-                        window.location.reload();
-                    }).catch(function (errors) {
-                        console.log(errors);
+                        GlobalFunction.logout();
+                    }).catch(function () {
+                        GlobalFunction.logout();
                     });
-
-                // Swal.fire({
-                //     title: "Deleted!",
-                //     text: "Your file has been deleted.",
-                //     icon: "success"
-                // });
             }
         });
     }
-
-
 
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <Link className="navbar-brand ps-3" to={'/'}>Mini pos</Link>
             <button onClick={handleSidebar} className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i className="fas fa-bars"></i></button>
             <ul className="navbar-nav ml-auto align-items-center">
-                <span className="text-white">admin</span>
+                <span className="text-white">{userName && userName}</span>
                 <li className="nav-item dropdown">
                     <a onClick={handleProfileToggle} className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
                     <ul className="dropdown-menu dropdown-menu-end right-0 profile_toggle_menu" aria-labelledby="navbarDropdown">

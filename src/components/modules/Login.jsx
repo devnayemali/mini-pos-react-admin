@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from 'axios';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from "react-router-dom";
+import Constants from "../../Constants";
 
 
 
@@ -11,7 +11,6 @@ const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
 
     const handleInputChange = (e) => {
@@ -20,7 +19,7 @@ const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         setIsLoading(true);
-        axios.post('http://127.0.0.1:8000/api/login', formData)
+        axios.post(`${Constants.BASE_URL}/login`, formData)
             .then(function (res) {
                 const token = res.data.token;
                 localStorage.setItem('userData', JSON.stringify(res.data));
@@ -35,13 +34,6 @@ const Login = () => {
                 setIsLoading(false);
             });
     };
-
-    useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        if (token){
-            navigate('/'); 
-        }
-    } , [navigate]);
 
     return (
         <section className="d-flex align-items-center vh-100">

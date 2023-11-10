@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Master from '../layout/Master';
 import Dashboard from '../modules/Dashboard';
-import Test from '../modules/Test';
+import Error500 from '../modules/Error500';
 
 const Router = createBrowserRouter([
     {
@@ -13,8 +13,8 @@ const Router = createBrowserRouter([
                 element: <Dashboard />
             },
             {
-                path: '/test',
-                element: <Test />
+                path: '/error-500',
+                element: <Error500 />
             }
         ]
     }
