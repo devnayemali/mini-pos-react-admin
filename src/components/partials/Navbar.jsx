@@ -1,19 +1,14 @@
+import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+
 
 const Navbar = () => {
 
     const [sidebarToggled, setSidebarToggled] = useState(false);
     const [profileToggled, setProfileToggled] = useState(false);
-
-    const handleSidebar = () => {
-        setSidebarToggled(!sidebarToggled);
-    }
-
-    const handleProfileToggle = () => {
-        setProfileToggled(!profileToggled)
-    }
 
     useEffect(() => {
         if (sidebarToggled) {
@@ -34,6 +29,45 @@ const Navbar = () => {
         }
     }, [profileToggled]);
 
+    const handleSidebar = () => {
+        setSidebarToggled(!sidebarToggled);
+    }
+
+    const handleProfileToggle = () => {
+        setProfileToggled(!profileToggled)
+    }
+
+    const handleLogout = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, logout"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axios.post('http://127.0.0.1:8000/api/logout')
+                    .then(function () {
+                        localStorage.removeItem('userData');
+                        localStorage.removeItem('authToken');
+                        window.location.reload();
+                    }).catch(function (errors) {
+                        console.log(errors);
+                    });
+
+                // Swal.fire({
+                //     title: "Deleted!",
+                //     text: "Your file has been deleted.",
+                //     icon: "success"
+                // });
+            }
+        });
+    }
+
+
+
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <Link className="navbar-brand ps-3" to={'/'}>Mini pos</Link>
@@ -46,7 +80,7 @@ const Navbar = () => {
                         <li><a className="dropdown-item" href="#!">Settings</a></li>
                         <li><a className="dropdown-item" href="#!">Activity Log</a></li>
                         <li><hr className="dropdown-divider" /></li>
-                        <li><a className="dropdown-item" href="#!">Logout</a></li>
+                        <li><button onClick={handleLogout} className="dropdown-item">Logout</button></li>
                     </ul>
                 </li>
             </ul>
