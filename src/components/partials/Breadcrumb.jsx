@@ -9,7 +9,7 @@ const Breadcrumb = ({ title = ''}) => {
             </Helmet>
             <h3 className="mt-4">{title}</h3>
             <ol className="breadcrumb mb-4">
-                <li className="breadcrumb-item active">{title}</li>
+                <li className="breadcrumb-item active">Dashboard {'->'} {title}</li>
             </ol>
         </>
     );

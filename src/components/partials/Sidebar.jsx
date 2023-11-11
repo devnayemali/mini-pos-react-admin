@@ -14,9 +14,22 @@ const Sidebar = () => {
     }, []);
 
     const menuItems = [
-        { text: 'Category', subMenu: ['Category list', 'Add new'] },
-        { text: 'Category 2', subMenu: ['Category 2 list', 'Add new 2'] },
-        // Add more dynamic menu items as needed
+        {
+            text: 'Category',
+            url: '#',
+            subMenu: [
+                { text: 'Category list', url: '/category/list' },
+                { text: 'Add new', url: '/category/create' },
+            ]
+        },
+        {
+            text: 'Category 2',
+            url: '#',
+            subMenu: [
+                { text: 'Category 2 list', url: '/category2/list' },
+                { text: 'Add new 2', url: '/category2/add' },
+            ]
+        },
     ];
 
     const handleMenu = (index) => {
@@ -35,16 +48,28 @@ const Sidebar = () => {
                     <ul className="sidebar-nav">
                         {menuItems.map((menuItem, index) => (
                             <li key={index}>
-                                <Link className="nav-link" onClick={() => handleMenu(index)} href="#" >
-                                    {menuItem.text} {activeMenu === index ? <i className="fas fa-chevron-right"></i> : <i className="fas fa-chevron-down"></i> }
+                                <Link
+                                    className={`nav-link ${activeMenu === index ? 'active' : ''}`}
+                                    onClick={() => handleMenu(index)}
+                                    to={menuItem.url}
+                                >
+                                    {menuItem.text}{' '}
+                                    {menuItem.subMenu && (
+                                        <i
+                                            className={`fas fa-chevron-${activeMenu === index ? 'up' : 'down'
+                                                }`}
+                                        ></i>
+                                    )}
                                 </Link>
-                                <ul style={{ display: activeMenu === index ? 'block' : 'none' }}>
-                                    {menuItem.subMenu.map((subMenuItem, subIndex) => (
-                                        <li key={subIndex}>
-                                            <Link to="#">{subMenuItem}</Link>
-                                        </li>
-                                    ))}
-                                </ul>
+                                {menuItem.subMenu && (
+                                    <ul style={{ display: activeMenu === index ? 'block' : 'none' }}>
+                                        {menuItem.subMenu.map((subMenuItem, subIndex) => (
+                                            <li key={subIndex}>
+                                                <Link to={subMenuItem.url}>{subMenuItem.text}</Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </li>
                         ))}
                     </ul>

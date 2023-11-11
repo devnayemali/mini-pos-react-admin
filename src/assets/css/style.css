@@ -16,7 +16,7 @@
     border-radius: 10px;
 }
 
-.input-box input {
+.input-box input, .input-box select, .input-box textarea {
     width: 100%;
     display: block;
     height: 47px;
@@ -24,7 +24,10 @@
     border-radius: 5px;
     padding: 0 20px;
 }
-
+.input-box textarea {
+    height: 150px;
+    padding: 20px;
+}
 .input-box {
     margin-bottom: 10px;
 }
